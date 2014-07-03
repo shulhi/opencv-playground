@@ -17,7 +17,7 @@ def detect(img):
     rects[:, 2:] += rects[:, :2]
     return rects, img
 
-if __name__ == '__main__':
+def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--image", required = True, help = "Path to the image")
     args = vars(ap.parse_args())
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     pca = RandomizedPCA(n_components=100)
     cropped_pca = pca.fit_transform(cropped)
 
-    # training
+    # training (hardcoded for now)
     clf   = SVC(probability=True)
     train = cropped_pca[:7]
     test  = cropped_pca[7:13]
@@ -51,3 +51,6 @@ if __name__ == '__main__':
         print clf.predict(item)
 
     cv2.waitKey(0)
+
+if __name__ == '__main__':
+    main()
