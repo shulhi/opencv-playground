@@ -1,5 +1,6 @@
 import argparse
 import cv2
+import cv2.cv as cv
 
 def inside(r, q):
     rx, ry, rw, rh = r
@@ -35,6 +36,10 @@ def main():
 
     cv2.namedWindow("HOG")
     vc = cv2.VideoCapture(0)
+
+    # downsize the resolution
+    vc.set(cv.CV_CAP_PROP_FRAME_WIDTH, 320)
+    vc.set(cv.CV_CAP_PROP_FRAME_HEIGHT, 240)
 
     if vc.isOpened(): # try to get the first frame
         rval, frame = vc.read()
