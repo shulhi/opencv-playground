@@ -1,15 +1,13 @@
-"""
-Use video cam to track faces
-"""
-
 import cv2
+import cv2.cv as cv
 
 def detect(img):
     cascade = cv2.CascadeClassifier("/usr/local/Cellar/opencv/2.4.9/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml")
+    # some other examples
     # cascade = cv2.CascadeClassifier("/usr/local/Cellar/opencv/2.4.9/share/OpenCV/haarcascades/haarcascade_mcs_nose.xml")
     # cascade = cv2.CascadeClassifier("/usr/local/Cellar/opencv/2.4.9/share/OpenCV/haarcascades/haarcascade_upperbody.xml")
     # cascade = cv2.CascadeClassifier("/usr/local/Cellar/opencv/2.4.9/share/OpenCV/haarcascades/haarcascade_mcs_mouth.xml")
-    rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20))
+    rects = cascade.detectMultiScale(img, 1.05, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (100,100))
 
     if len(rects) == 0:
         return [], img
@@ -19,6 +17,9 @@ def detect(img):
 def main():
     cv2.namedWindow("preview")
     vc = cv2.VideoCapture(0)
+    # small resolution, so the frame rate is higher
+    vc.set(cv.CV_CAP_PROP_FRAME_WIDTH, 320)
+    vc.set(cv.CV_CAP_PROP_FRAME_HEIGHT, 240)
 
     if vc.isOpened(): # try to get the first frame
         rval, frame = vc.read()
